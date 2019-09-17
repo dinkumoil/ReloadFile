@@ -9,7 +9,7 @@ Author: Andreas Heim, 2019
 
 This is a new implemented clone of the old _ReloadButton_ plugin which is not maintained anymore by its author and never has been available as 64 bit version.
 
-The plugin adds a menu entry to the _Plugins_ menu and a button to the toolbar of Notepad++ that, when pressed, causes a reload of the file in the currently active tab. It is also able to assign a keyboard shortcut to the menu entry.
+The plugin adds a menu entry to the _Plugins_ menu and a button to the toolbar of Notepad++ that, when pressed, causes a reload of the file in the currently active tab. It is possible to assign a keyboard shortcut to the menu entry via Notepad++ _Shortcut Mapper_. 
 
 **Please note: Reload of the file happens without asking the user to save his changed but unsaved document, so use with care!**
 
