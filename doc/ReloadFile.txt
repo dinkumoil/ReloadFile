@@ -19,7 +19,7 @@ maintained anymore by its author and never has been available as 64 bit version.
 
 The plugin adds a menu entry to the Plugins menu and a button to the toolbar
 of Notepad++ that, when pressed, causes a reload of the file in the currently
-active tab. It is also able to assign a keyboard shortcut to the menu entry.
+active tab. It is possible to assign a keyboard shortcut to the menu entry via Notepad++ Shortcut Mapper.
 
 PLEASE NOTE: Reload of the file happens without asking the user to save his
 changed but unsaved document, so use with care!
