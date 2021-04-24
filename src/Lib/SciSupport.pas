@@ -23,6 +23,10 @@
 unit SciSupport;
 
 
+// =============================================================================
+// Scintilla v4.4.6 as of Notepad++ v7.9.4
+// =============================================================================
+
 interface
 
 uses
@@ -134,6 +138,7 @@ type
     annotationLinesAdded : sciPosition;  // SCN_MODIFIED with SC_MOD_CHANGEANNOTATION
     updated              : Integer;      // SCN_UPDATEUI
     listCompletionMethod : Integer;      // SCN_AUTOCSELECTION, SCN_AUTOCCOMPLETED, SCN_USERLISTSELECTION
+    characterSource      : Integer;      // SCN_CHARADDED
   end;
 
 
@@ -166,6 +171,8 @@ const
   SCI_CANREDO                                   = 2016;
   SCI_MARKERLINEFROMHANDLE                      = 2017;
   SCI_MARKERDELETEHANDLE                        = 2018;
+  SCI_MARKERHANDLEFROMLINE                      = 2732;
+  SCI_MARKERNUMBERFROMLINE                      = 2733;
   SCI_GETUNDOCOLLECTION                         = 2019;
   SCWS_INVISIBLE                                = 0;
   SCWS_VISIBLEALWAYS                            = 1;
@@ -205,6 +212,13 @@ const
   SC_IME_INLINE                                 = 1;
   SCI_GETIMEINTERACTION                         = 2678;
   SCI_SETIMEINTERACTION                         = 2679;
+  SC_ALPHA_TRANSPARENT                          = 0;
+  SC_ALPHA_OPAQUE                               = 255;
+  SC_ALPHA_NOALPHA                              = 256;
+  SC_CURSORNORMAL                               = -1;
+  SC_CURSORARROW                                = 2;
+  SC_CURSORWAIT                                 = 4;
+  SC_CURSORREVERSEARROW                         = 7;
   MARKER_MAX                                    = 31;
   SC_MARK_CIRCLE                                = 0;
   SC_MARK_ROUNDRECT                             = 1;
@@ -238,6 +252,7 @@ const
   SC_MARK_UNDERLINE                             = 29;
   SC_MARK_RGBAIMAGE                             = 30;
   SC_MARK_BOOKMARK                              = 31;
+  SC_MARK_VERTICALBOOKMARK                      = 32;
   SC_MARK_CHARACTER                             = 10000;
   SC_MARKNUM_FOLDEREND                          = 25;
   SC_MARKNUM_FOLDEROPENMID                      = 26;
@@ -369,6 +384,8 @@ const
   SCI_SETCARETPERIOD                            = 2076;
   SCI_SETWORDCHARS                              = 2077;
   SCI_GETWORDCHARS                              = 2646;
+  SCI_SETCHARACTERCATEGORYOPTIMIZATION          = 2720;
+  SCI_GETCHARACTERCATEGORYOPTIMIZATION          = 2721;
   SCI_BEGINUNDOACTION                           = 2078;
   SCI_ENDUNDOACTION                             = 2079;
   INDIC_PLAIN                                   = 0;
@@ -393,14 +410,15 @@ const
   INDIC_POINTCHARACTER                          = 19;
   INDIC_GRADIENT                                = 20;
   INDIC_GRADIENTCENTRE                          = 21;
+  INDIC_EXPLORERLINK                            = 22;
+  INDIC_CONTAINER                               = 8;
   INDIC_IME                                     = 32;
   INDIC_IME_MAX                                 = 35;
   INDIC_MAX                                     = 35;
-  INDIC_CONTAINER                               = 8;
-  INDIC0_MASK                                   = $20;
-  INDIC1_MASK                                   = $40;
-  INDIC2_MASK                                   = $80;
-  INDICS_MASK                                   = $E0;
+  INDICATOR_CONTAINER                           = 8;
+  INDICATOR_IME                                 = 32;
+  INDICATOR_IME_MAX                             = 35;
+  INDICATOR_MAX                                 = 35;
   SCI_INDICSETSTYLE                             = 2080;
   SCI_INDICGETSTYLE                             = 2081;
   SCI_INDICSETFORE                              = 2082;
@@ -499,6 +517,7 @@ const
   SC_PRINT_SCREENCOLOURS                        = 5;
   SCI_SETPRINTCOLOURMODE                        = 2148;
   SCI_GETPRINTCOLOURMODE                        = 2149;
+  SCFIND_NONE                                   = $0;
   SCFIND_WHOLEWORD                              = $2;
   SCFIND_MATCHCASE                              = $4;
   SCFIND_WORDSTART                              = $00100000;
@@ -548,8 +567,12 @@ const
   SCI_GETCARETWIDTH                             = 2189;
   SCI_SETTARGETSTART                            = 2190;
   SCI_GETTARGETSTART                            = 2191;
+  SCI_SETTARGETSTARTVIRTUALSPACE                = 2728;
+  SCI_GETTARGETSTARTVIRTUALSPACE                = 2729;
   SCI_SETTARGETEND                              = 2192;
   SCI_GETTARGETEND                              = 2193;
+  SCI_SETTARGETENDVIRTUALSPACE                  = 2730;
+  SCI_GETTARGETENDVIRTUALSPACE                  = 2731;
   SCI_SETTARGETRANGE                            = 2686;
   SCI_GETTARGETTEXT                             = 2687;
   SCI_TARGETFROMSELECTION                       = 2287;
@@ -593,6 +616,9 @@ const
   SC_FOLDDISPLAYTEXT_STANDARD                   = 1;
   SC_FOLDDISPLAYTEXT_BOXED                      = 2;
   SCI_FOLDDISPLAYTEXTSETSTYLE                   = 2701;
+  SCI_FOLDDISPLAYTEXTGETSTYLE                   = 2707;
+  SCI_SETDEFAULTFOLDDISPLAYTEXT                 = 2722;
+  SCI_GETDEFAULTFOLDDISPLAYTEXT                 = 2723;
   SC_FOLDACTION_CONTRACT                        = 0;
   SC_FOLDACTION_EXPAND                          = 1;
   SC_FOLDACTION_TOGGLE                          = 2;
@@ -764,6 +790,7 @@ const
   SCI_BRACEBADLIGHT                             = 2352;
   SCI_BRACEBADLIGHTINDICATOR                    = 2499;
   SCI_BRACEMATCH                                = 2353;
+  SCI_BRACEMATCHNEXT                            = 2369;
   SCI_GETVIEWEOL                                = 2355;
   SCI_SETVIEWEOL                                = 2356;
   SCI_GETDOCPOINTER                             = 2357;
@@ -781,6 +808,7 @@ const
   SCI_SETEDGECOLOUR                             = 2365;
   SCI_MULTIEDGEADDLINE                          = 2694;
   SCI_MULTIEDGECLEARALL                         = 2695;
+  SCI_GETMULTIEDGECOLUMN                        = 2749;
   SCI_SEARCHANCHOR                              = 2366;
   SCI_SEARCHNEXT                                = 2367;
   SCI_SEARCHPREV                                = 2368;
@@ -815,10 +843,6 @@ const
   SCI_GETMOUSEDOWNCAPTURES                      = 2385;
   SCI_SETMOUSEWHEELCAPTURES                     = 2696;
   SCI_GETMOUSEWHEELCAPTURES                     = 2697;
-  SC_CURSORNORMAL                               = -1;
-  SC_CURSORARROW                                = 2;
-  SC_CURSORWAIT                                 = 4;
-  SC_CURSORREVERSEARROW                         = 7;
   SCI_SETCURSOR                                 = 2386;
   SCI_GETCURSOR                                 = 2387;
   SCI_SETCONTROLCHARSYMBOL                      = 2388;
@@ -913,18 +937,15 @@ const
   SCI_SETLENGTHFORENCODE                        = 2448;
   SCI_ENCODEDFROMUTF8                           = 2449;
   SCI_FINDCOLUMN                                = 2456;
-  SCI_GETCARETSTICKY                            = 2457;
-  SCI_SETCARETSTICKY                            = 2458;
   SC_CARETSTICKY_OFF                            = 0;
   SC_CARETSTICKY_ON                             = 1;
   SC_CARETSTICKY_WHITESPACE                     = 2;
+  SCI_GETCARETSTICKY                            = 2457;
+  SCI_SETCARETSTICKY                            = 2458;
   SCI_TOGGLECARETSTICKY                         = 2459;
   SCI_SETPASTECONVERTENDINGS                    = 2467;
   SCI_GETPASTECONVERTENDINGS                    = 2468;
   SCI_SELECTIONDUPLICATE                        = 2469;
-  SC_ALPHA_TRANSPARENT                          = 0;
-  SC_ALPHA_OPAQUE                               = 255;
-  SC_ALPHA_NOALPHA                              = 256;
   SCI_SETCARETLINEBACKALPHA                     = 2470;
   SCI_GETCARETLINEBACKALPHA                     = 2471;
   CARETSTYLE_INVISIBLE                          = 0;
@@ -932,6 +953,8 @@ const
   CARETSTYLE_BLOCK                              = 2;
   CARETSTYLE_OVERSTRIKE_BAR                     = 0;
   CARETSTYLE_OVERSTRIKE_BLOCK                   = 16;
+  CARETSTYLE_INS_MASK                           = $F;
+  CARETSTYLE_BLOCK_AFTER                        = $100;
   SCI_SETCARETSTYLE                             = 2512;
   SCI_GETCARETSTYLE                             = 2513;
   SCI_SETINDICATORCURRENT                       = 2500;
@@ -990,6 +1013,7 @@ const
   SCI_ANNOTATIONGETSTYLEOFFSET                  = 2551;
   SCI_RELEASEALLEXTENDEDSTYLES                  = 2552;
   SCI_ALLOCATEEXTENDEDSTYLES                    = 2553;
+  UNDO_NONE                                     = 0;
   UNDO_MAY_COALESCE                             = 1;
   SCI_ADDUNDOACTION                             = 2560;
   SCI_CHARPOSITIONFROMPOINT                     = 2561;
@@ -1022,7 +1046,9 @@ const
   SCI_GETSELECTIONNANCHORVIRTUALSPACE           = 2583;
   SCI_SETSELECTIONNSTART                        = 2584;
   SCI_GETSELECTIONNSTART                        = 2585;
+  SCI_GETSELECTIONNSTARTVIRTUALSPACE            = 2726;
   SCI_SETSELECTIONNEND                          = 2586;
+  SCI_GETSELECTIONNENDVIRTUALSPACE              = 2727;
   SCI_GETSELECTIONNEND                          = 2587;
   SCI_SETRECTANGULARSELECTIONCARET              = 2588;
   SCI_GETRECTANGULARSELECTIONCARET              = 2589;
@@ -1086,6 +1112,18 @@ const
   SCI_SETREPRESENTATION                         = 2665;
   SCI_GETREPRESENTATION                         = 2666;
   SCI_CLEARREPRESENTATION                       = 2667;
+  SCI_EOLANNOTATIONSETTEXT                      = 2740;
+  SCI_EOLANNOTATIONGETTEXT                      = 2741;
+  SCI_EOLANNOTATIONSETSTYLE                     = 2742;
+  SCI_EOLANNOTATIONGETSTYLE                     = 2743;
+  SCI_EOLANNOTATIONCLEARALL                     = 2744;
+  EOLANNOTATION_HIDDEN                          = 0;
+  EOLANNOTATION_STANDARD                        = 1;
+  EOLANNOTATION_BOXED                           = 2;
+  SCI_EOLANNOTATIONSETVISIBLE                   = 2745;
+  SCI_EOLANNOTATIONGETVISIBLE                   = 2746;
+  SCI_EOLANNOTATIONSETSTYLEOFFSET               = 2747;
+  SCI_EOLANNOTATIONGETSTYLEOFFSET               = 2748;
   SCI_STARTRECORD                               = 3001;
   SCI_STOPRECORD                                = 3002;
   SCI_SETLEXER                                  = 4001;
@@ -1122,6 +1160,8 @@ const
   SCI_NAMEOFSTYLE                               = 4030;
   SCI_TAGSOFSTYLE                               = 4031;
   SCI_DESCRIPTIONOFSTYLE                        = 4032;
+  SCI_SETILEXER                                 = 4033;
+  SC_MOD_NONE                                   = $0;
   SC_MOD_INSERTTEXT                             = $1;
   SC_MOD_DELETETEXT                             = $2;
   SC_MOD_CHANGESTYLE                            = $4;
@@ -1144,8 +1184,9 @@ const
   SC_MOD_LEXERSTATE                             = $80000;
   SC_MOD_INSERTCHECK                            = $100000;
   SC_MOD_CHANGETABSTOPS                         = $200000;
+  SC_MOD_CHANGEEOLANNOTATION                    = $400000;
   SC_MODEVENTMASKALL                            = $3FFFFF;
-  SC_SEARCHRESULT_LINEBUFFERMAXLENGTH           = 1024;
+  SC_SEARCHRESULT_LINEBUFFERMAXLENGTH           = 2048;
   SC_UPDATE_CONTENT                             = $1;
   SC_UPDATE_SELECTION                           = $2;
   SC_UPDATE_V_SCROLL                            = $4;
@@ -1184,6 +1225,9 @@ const
   SC_AC_TAB                                     = 3;
   SC_AC_NEWLINE                                 = 4;
   SC_AC_COMMAND                                 = 5;
+  SC_CHARACTERSOURCE_DIRECT_INPUT               = 0;
+  SC_CHARACTERSOURCE_TENTATIVE_INPUT            = 1;
+  SC_CHARACTERSOURCE_IME_RESULT                 = 2;
   SCN_STYLENEEDED                               = 2000;
   SCN_CHARADDED                                 = 2001;
   SCN_SAVEPOINTREACHED                          = 2002;
