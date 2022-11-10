@@ -2,14 +2,14 @@
 
 Builds for 32 and 64 bits Notepad++ installations available
 
-Author: Andreas Heim, 2019
+Author: Andreas Heim, 2019 - 2022
 
 
 # Features
 
 This is a new implemented clone of the old _ReloadButton_ plugin which is not maintained anymore by its author and never has been available as 64 bit version.
 
-The plugin adds a menu entry to the _Plugins_ menu and a button to the toolbar of Notepad++ that, when pressed, causes a reload of the file in the currently active tab. It is possible to assign a keyboard shortcut to the menu entry via Notepad++ _Shortcut Mapper_. 
+The plugin adds a menu entry to the _Plugins_ menu and a button to the toolbar of Notepad++ that, when pressed, causes a reload of the file in the currently active tab. It is possible to assign a keyboard shortcut to the menu entry via Notepad++ _Shortcut Mapper_.
 
 **Please note: Reload of the file happens without asking the user to save his changed but unsaved document, so use with care!**
 
@@ -45,6 +45,16 @@ The following steps depend on the version of Notepad++ you use.
 
 
 # History
+
+v1.1 - November 2022
+- fixed:    The 64 bit version caused Notepad++ to crash when reloading a file
+- fixed:    When plugin's dialog box is on screen but hidden by another application's window which has input focus, it is not possible to return to Notepad++ by clicking its taskbar icon.
+- fixed:    Wrong implementation of Notepad++ version comparison.
+- enhanced: Added support for Dark Mode icons.
+- enhanced: Added new Notepad++ message constants from v7.9.2 up to v8.4.7
+- enhanced: Added new Notepad++ menu command ids from v7.9.6 up to v8.4.7
+- enhanced: Added new Scintilla constants from v4.4.6 up to v5.3.1
+- enhanced: Adapted to new Scintilla v5.3.1 API of Notepad++ v8.4.7
 
 v1.0 - September 2019
 - Initial release

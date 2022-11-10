@@ -34,6 +34,7 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
+			<VerInfo_MinorVer>1</VerInfo_MinorVer>
 			<PreBuildEvent><![CDATA[cmd /c ".\BuildScripts\PreBuildScript.cmd "$(PROJECTNAME)" $(CONFIG) $(PLATFORM)"
 $(PreBuildEvent)]]></PreBuildEvent>
 			<PostBuildEvent><![CDATA[cmd /c ".\BuildScripts\PostBuildScript.cmd "$(PROJECTNAME)" $(CONFIG) $(PLATFORM)"
@@ -51,7 +52,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
 			<DCC_E>false</DCC_E>
 			<DCC_F>false</DCC_F>
 			<VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-			<VerInfo_Keys>CompanyName=;FileDescription=A plugin that adds a button to the toolbar of Notepad++ to reload the file of the currently active tab;FileVersion=1.0.0.0;InternalName=;LegalCopyright=2019 by Andreas Heim;LegalTrademarks=;OriginalFilename=ReloadFile.dll;ProductName=ReloadFile;ProductVersion=1.0.0.0;Comments=A plugin for Notepad++</VerInfo_Keys>
+			<VerInfo_Keys>CompanyName=;FileDescription=A plugin that adds a button to the toolbar of Notepad++ to reload the file of the currently active tab;FileVersion=1.1.0.0;InternalName=;LegalCopyright=2019 - 2022 by Andreas Heim;LegalTrademarks=;OriginalFilename=ReloadFile.dll;ProductName=ReloadFile;ProductVersion=1.1.0.0;Comments=A plugin for Notepad++</VerInfo_Keys>
 			<VerInfo_Locale>1033</VerInfo_Locale>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base_Win64)'!=''">
