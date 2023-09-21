@@ -97,8 +97,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
 			<DCCReference Include="dialog_TfrmAbout.pas">
 				<Form>frmAbout</Form>
 			</DCCReference>
-			<None Include="..\readme.txt"/>
 			<None Include="..\doc\ReloadFile.txt"/>
+			<None Include="..\README.MD"/>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_2</Key>
 				<CfgParent>Base</CfgParent>
